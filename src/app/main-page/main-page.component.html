@@ -1,49 +1,63 @@
-<h3>Existing users:</h3>
-<div *ngFor="let user of users | async" class="userBox">
-  <div>Name: {{ user.name }}</div>
-  <div>Age: {{ user.age }}</div>
-  <div>Occupation: {{ user.occupation }}</div>
-  <button (click)="setUserId(user.id, user)" class="btn">Edit User</button>
-  <button (click)="deleteUser(user.id)" class="btn margin-left">
-    Delete User
-  </button>
-</div>
-
-<button *ngIf="!isCreate" (click)="switch()" class="btn switch">
-  I want to create new user
-</button>
-
-<h3 *ngIf="isCreate">Create new user:</h3>
-<h3 *ngIf="!isCreate">Update existing user:</h3>
-
-<div class="flex-center">
-  <form (ngSubmit)="onSubmit(userForm)" [formGroup]="userForm" class="formBox">
-    <label for="name">Name:</label>
-    <input
-      type="text"
-      name="name"
-      id="name"
-      class="form-control"
-      formControlName="name"
-    />
-    <label for="age">Age:</label>
-    <input
-      type="number"
-      name="age"
-      id="age"
-      class="form-control"
-      formControlName="age"
-    />
-    <label for="occupation">Occupation:</label>
-    <input
-      type="text"
-      name="occupation"
-      id="occupation"
-      class="form-control"
-      formControlName="occupation"
-    />
-    <button type="submit" class="btn btn-success" [disabled]="!userForm.valid">
-      Submit
+<div *ngIf="auth.currentUser">
+  <button (click)="signOut()" class="btn">Sign out</button>
+  <h3>Existing users:</h3>
+  <div *ngFor="let user of users | async" class="userBox">
+    <div>Name: {{ user.name }}</div>
+    <div>Age: {{ user.age }}</div>
+    <div>Occupation: {{ user.occupation }}</div>
+    <button (click)="setUserId(user.id, user)" class="btn">Edit User</button>
+    <button (click)="deleteUser(user.id)" class="btn margin-left">
+      Delete User
     </button>
-  </form>
+  </div>
+
+  <button *ngIf="!isCreate" (click)="switch()" class="btn switch">
+    I want to create new user
+  </button>
+
+  <h3 *ngIf="isCreate">Create new user:</h3>
+  <h3 *ngIf="!isCreate">Update existing user:</h3>
+
+  <div class="flex-center">
+    <form
+      (ngSubmit)="onSubmit(userForm)"
+      [formGroup]="userForm"
+      class="formBox"
+    >
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        class="form-control"
+        formControlName="name"
+      />
+      <label for="age">Age:</label>
+      <input
+        type="number"
+        name="age"
+        id="age"
+        class="form-control"
+        formControlName="age"
+      />
+      <label for="occupation">Occupation:</label>
+      <input
+        type="text"
+        name="occupation"
+        id="occupation"
+        class="form-control"
+        formControlName="occupation"
+      />
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!userForm.valid"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+<div *ngIf="!auth.currentUser">
+  <h2 class="red">You are not authorized</h2>
 </div>

@@ -1,34 +1,38 @@
-.userBox{
+.userBox {
   width: 100%;
   border: 1px solid black;
   margin-top: 4px;
   padding: 8px;
 }
 
-.flex-center{
+.flex-center {
   display: flex;
   justify-content: center;
 }
 
-.margin-left{
+.margin-left {
   margin-left: 8px;
 }
 
-.switch{
+.switch {
   margin-top: 8px;
 }
 
-.formBox{
+.formBox {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  label{
+  label {
     margin-top: 4px;
   }
-  input{
+  input {
     width: 200px;
   }
-  button{
+  button {
     margin-top: 4px;
   }
+}
+
+.red {
+  color: red;
 }
