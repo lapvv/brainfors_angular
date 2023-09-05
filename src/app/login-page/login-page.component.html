@@ -1,3 +1,5 @@
+<h3 *ngIf="isSignIn">Sign in:</h3>
+<h3 *ngIf="!isSignIn">Register:</h3>
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div>
     <label for="email">Email: </label>
@@ -7,7 +9,7 @@
       class="form-control short"
       formControlName="email"
     />
-    <div *ngIf="invalid" style="color: red">Email is incorrect</div>
+    <div *ngIf="invalid" class="red">Email is incorrect</div>
   </div>
 
   <div>
@@ -18,9 +20,13 @@
       class="form-control short"
       formControlName="password"
     />
-    <div *ngIf="invalid" style="color: red">
-      Password length should be more than 4 symbols
+    <div *ngIf="invalid" class="red">
+      Password length should be 6 symbols or more
     </div>
   </div>
-  <button type="submit" class="btn">Submit</button>
+  <div *ngIf="error" class="red">{{ error }}</div>
+  <button *ngIf="isSignIn" type="submit" class="btn">Sign in</button>
+  <button *ngIf="!isSignIn" type="submit" class="btn">Register</button>
 </form>
+<a *ngIf="isSignIn" (click)="switch()" class="reg-link">I want to register</a>
+<a *ngIf="!isSignIn" (click)="switch()" class="reg-link">I want to sign in</a>

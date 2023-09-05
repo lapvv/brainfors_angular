@@ -6,8 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../auth-service.service';
 import { Router } from '@angular/router';
+
+import { AuthService } from '../auth-service.service';
 
 @Component({
   selector: 'app-login-page',
@@ -17,22 +18,24 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   formGroup: FormGroup;
   invalid = false;
+  isSignIn = true;
+  error!: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private userDataService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.formGroup = this.formBuilder.group({
       email: this.formBuilder.control(
-        this.userDataService.getEmail(),
+        '',
         Validators.compose([Validators.required, Validators.email])
       ),
       password: this.formBuilder.control(
-        this.userDataService.getPassword(),
+        '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(4),
+          Validators.minLength(6),
           Validators.pattern('[^а-яА-Я]*'),
         ])
       ),
@@ -61,17 +64,37 @@ export class LoginPageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.formGroup.value.email);
-    console.log(this.formGroup.value.password);
     this.validateAllFormFields(this.formGroup);
-    this.userDataService.setEmail(this.formGroup.value.email);
-    this.userDataService.setPassword(this.formGroup.value.password);
-    console.log(this.formGroup.valid);
     if (this.formGroup.valid) {
-      this.router.navigate(['/main']);
-      this.router.navigateByUrl('/main');
+      this.invalid = false;
+      if (this.isSignIn) {
+        this.authService
+          .signIn(this.formGroup.value.email, this.formGroup.value.password)
+          .then((res) => {
+            this.formGroup.patchValue({ email: '', password: '' });
+            this.router.navigateByUrl('/main');
+          })
+          .catch((err) => {
+            console.log(err.message);
+            this.error = err.message;
+          });
+      } else {
+        this.authService
+          .register(this.formGroup.value.email, this.formGroup.value.password)
+          .then((res) => {
+            this.formGroup.patchValue({ email: '', password: '' });
+          })
+          .catch((err) => {
+            console.log(err.message);
+            this.error = err.message;
+          });
+      }
     } else {
       this.invalid = true;
     }
+  }
+
+  switch(): void {
+    this.isSignIn = !this.isSignIn;
   }
 }
