@@ -1,27 +1,35 @@
 import { Injectable } from '@angular/core';
-import {addDoc, collection, collectionData, deleteDoc, doc, updateDoc, Firestore} from "@angular/fire/firestore";
-import {User} from "./types";
+import {
+  addDoc,
+  collection,
+  collectionData,
+  deleteDoc,
+  doc,
+  Firestore,
+  updateDoc,
+} from '@angular/fire/firestore';
+
+import { User } from './types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
+  constructor(private fs: Firestore) {}
 
-  constructor(private fs:Firestore) { }
-
-  getUsers(){
+  getUsers() {
     let usersCollection = collection(this.fs, 'users');
-    return collectionData(usersCollection,{idField: 'id'})
+    return collectionData(usersCollection, { idField: 'id' });
   }
 
-  addUser(user: User){
+  addUser(user: User) {
     let usersCollection = collection(this.fs, 'users');
     return addDoc(usersCollection, user);
   }
 
-  editUser(id: number, user: User){
+  editUser(id: number, user: User) {
     // @ts-ignore
-    let docInstance = doc(this.fs, 'users', id)
+    let docInstance = doc(this.fs, 'users', id);
     // const updateData = {
     //   name: 'updatedName',
     //   age: 'updatedAge',
@@ -30,8 +38,8 @@ export class SharedService {
     return updateDoc(docInstance, user);
   }
 
-  deleteUser(id: number){
-    let docRef = doc(this.fs, 'users/'+id)
+  deleteUser(id: number) {
+    let docRef = doc(this.fs, 'users/' + id);
     return deleteDoc(docRef);
   }
 }

@@ -1,14 +1,26 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div>
     <label for="email">Email: </label>
-    <input id="email" type="email" formControlName="email" />
+    <input
+      id="email"
+      type="email"
+      class="form-control short"
+      formControlName="email"
+    />
     <div *ngIf="invalid" style="color: red">Email is incorrect</div>
   </div>
 
   <div>
     <label for="password">Password: </label>
-    <input id="password" type="text" formControlName="password" />
-    <div *ngIf="invalid" style="color: red">Password length should be more than 4 symbols</div>
+    <input
+      id="password"
+      type="password"
+      class="form-control short"
+      formControlName="password"
+    />
+    <div *ngIf="invalid" style="color: red">
+      Password length should be more than 4 symbols
+    </div>
   </div>
-  <button type="submit">Submit</button>
+  <button type="submit" class="btn">Submit</button>
 </form>
