@@ -9,6 +9,9 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {SharedService} from "./shared.service";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
+import { MainPageComponent } from './main-page/main-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import {AuthService} from "./auth-service.service";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBChlV-JoMh6deDp6hdkmC8NoyVDGqwlgY",
@@ -21,7 +24,9 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainPageComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,7 @@ const firebaseConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [SharedService],
+  providers: [SharedService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
